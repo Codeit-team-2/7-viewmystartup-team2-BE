@@ -4,6 +4,7 @@ import {
   companyData,
   myCompanySelectionData,
   compareCompanySelectionData,
+  investmentData,
 } from "./seedData.js";
 
 const prisma = new PrismaClient();
@@ -20,6 +21,13 @@ async function main() {
   for (const company of companyData) {
     await prisma.company.create({
       data: company,
+    });
+  }
+
+  // Investment 데이터 넣기
+  for (const inv of investmentData) {
+    await prisma.investment.create({
+      data: inv,
     });
   }
 
