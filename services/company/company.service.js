@@ -1,13 +1,14 @@
 // services/company/company.service.js
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import {
+  getAllCompaniesFromDB,
+  getCompanyByIdFromDB,
+} from "../../repositories/company/company.repository.js";
 
 export const fetchAllCompanies = async () => {
-  return await prisma.company.findMany();
+  // 비즈니스 로직 추가 가능 (ex. 필터, 정렬, 계산 등)
+  return await getAllCompaniesFromDB();
 };
 
 export const fetchCompanyById = async (id) => {
-  return await prisma.company.findUnique({
-    where: { id },
-  });
+  return await getCompanyByIdFromDB(id);
 };

@@ -19,9 +19,12 @@ async function main() {
 
   // Company 데이터 넣기
   for (const company of companyData) {
-    await prisma.company.create({
-      data: company,
-    });
+    try {
+      await prisma.company.create({ data: company });
+    } catch (err) {
+      console.error("❌ 에러 발생한 company 데이터:", company);
+      throw err;
+    }
   }
 
   // Investment 데이터 넣기

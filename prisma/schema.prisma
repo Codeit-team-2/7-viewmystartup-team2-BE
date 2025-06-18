@@ -23,12 +23,12 @@ model Company {
   companyName      String
   description      String
   category         String
-  revenue          String
-  employees        String
-  totalInvestment  String
+  revenue          Float
+  employees        Int
+  totalInvestment  Float
   investmentStage  String
   investors        String
-  vmsInvestment    String
+  vmsInvestment    Float
   investments      Investment[]
   myCompanySelections       MyCompanySelection[]
   compareCompanySelections  CompareCompanySelection[]

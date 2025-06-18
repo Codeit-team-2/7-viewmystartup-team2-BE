@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { faker } from "@faker-js/faker";
 
+const clean = (str) => str?.replace(/\u0000/g, "") || "";
+
 /***********
  * faker 데이터 설정
  * 아래에서 숫자만 바꾸세요
@@ -21,20 +23,23 @@ export const userData = Array.from({ length: USER_NUM }).map(() => ({
 // 회사 5개 생성
 export const companyData = Array.from({ length: COMPANY_NUM }).map(() => ({
   id: uuidv4(),
-  companyName: faker.company.name(),
-  description: faker.company.catchPhrase(),
-  category: faker.company.buzzAdjective(),
-  revenue: `${faker.number.int({ min: 1, max: 500 })}억`,
-  employees: `${faker.number.int({ min: 10, max: 1000 })}명`,
-  totalInvestment: `${faker.number.int({ min: 1, max: 100 })}억`,
+  companyName: clean(faker.company.name().replace(/\u0000/g, "")),
+  description: clean(faker.company.catchPhrase().replace(/\u0000/g, "")),
+  category: clean(faker.company.buzzAdjective().replace(/\u0000/g, "")),
+  revenue: faker.number.float({ min: 50, max: 500, precision: 0.1 }),
+  employees: faker.number.int({ min: 10, max: 1000 }),
+  totalInvestment: faker.number.float({ min: 10, max: 100, precision: 0.1 }),
   investmentStage: faker.helpers.arrayElement([
     "Pre-A",
     "Series A",
     "Series B",
     "Series C",
   ]),
-  investors: `${faker.company.name()}, ${faker.company.name()}`,
-  vmsInvestment: faker.helpers.arrayElement(["Yes", "No"]),
+  investors: `${faker.company.name()}, ${faker.company.name()}`.replace(
+    /\u0000/g,
+    ""
+  ),
+  vmsInvestment: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
 }));
 
 // 가짜 투자 내역 (10개)
