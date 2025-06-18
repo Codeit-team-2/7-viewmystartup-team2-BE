@@ -7,9 +7,11 @@ const clean = (str) => str?.replace(/\u0000/g, "") || "";
  * faker 데이터 설정
  * 아래에서 숫자만 바꾸세요
  * *********/
-const USER_NUM = 10;
-const COMPANY_NUM = 10;
-const INVESTMENT_LOG_NUM = 10;
+const USER_NUM = 20;
+const COMPANY_NUM = 85;
+const INVESTMENT_LOG_NUM = 100;
+const MY_SELECTION_NUM = 50; // 내가 선택한 기업 수
+const COMPARE_SELECTION_NUM = 100; // 비교 기업 수
 
 // 유저 10명 생성
 export const userData = Array.from({ length: USER_NUM }).map(() => ({
@@ -56,33 +58,20 @@ export const investmentData = Array.from({ length: INVESTMENT_LOG_NUM }).map(
   })
 );
 
-// 선택 데이터 (2개씩만 샘플로)
-export const myCompanySelectionData = [
-  {
-    id: uuidv4(),
-    userId: userData[0].id,
-    companyId: companyData[0].id,
-    createdAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    userId: userData[1].id,
-    companyId: companyData[1].id,
-    createdAt: new Date(),
-  },
-];
+export const myCompanySelectionData = Array.from({
+  length: MY_SELECTION_NUM,
+}).map(() => ({
+  id: uuidv4(),
+  userId: faker.helpers.arrayElement(userData).id,
+  companyId: faker.helpers.arrayElement(companyData).id,
+  createdAt: new Date(),
+}));
 
-export const compareCompanySelectionData = [
-  {
-    id: uuidv4(),
-    userId: userData[2].id,
-    companyId: companyData[1].id,
-    createdAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    userId: userData[3].id,
-    companyId: companyData[0].id,
-    createdAt: new Date(),
-  },
-];
+export const compareCompanySelectionData = Array.from({
+  length: COMPARE_SELECTION_NUM,
+}).map(() => ({
+  id: uuidv4(),
+  userId: faker.helpers.arrayElement(userData).id,
+  companyId: faker.helpers.arrayElement(companyData).id,
+  createdAt: new Date(),
+}));
