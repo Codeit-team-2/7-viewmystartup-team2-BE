@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { faker } from "@faker-js/faker";
 
-const clean = str => str?.replace(/\u0000/g, "") || "";
+const clean = (str) => str?.replace(/\u0000/g, "") || "";
 
 /***********
  * faker 데이터 설정

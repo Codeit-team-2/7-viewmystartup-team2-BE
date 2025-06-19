@@ -1,6 +1,7 @@
 // controllers/company/company.controller.js
 import {
   fetchAllCompanies,
+  fetchCompaniesFiltered,
   fetchCompanyById,
   fetchInvestmentOverviewCompanies,
   fetchSelectedOverviewCompanies,
@@ -82,6 +83,17 @@ export const getCompanyById = async (req, res) => {
     res.status(200).json(company);
   } catch (error) {
     console.error("❌ [getCompanyById] error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getCompaniesFiltered = async (req, res) => {
+  const { keyword } = req.query;
+  try {
+    const companies = await fetchCompaniesFiltered(keyword);
+    res.status(200).json(companies);
+  } catch (error) {
+    console.error("❌ [getCompaniesFiltered] error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

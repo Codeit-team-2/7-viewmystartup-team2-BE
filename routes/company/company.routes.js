@@ -2,6 +2,7 @@
 import express from "express";
 import {
   getAllCompanies,
+  getCompaniesFiltered,
   getCompanyById,
   getInvestmentOverviewCompanies,
   getSelectedOverviewCompanies,
@@ -14,6 +15,7 @@ const router = express.Router();
 // 라우트 순서바꾸고 노드몬 껏다키세요~
 router.get("/investment-overview", getInvestmentOverviewCompanies);
 router.get("/selected-overview", getSelectedOverviewCompanies);
+router.get("/filtered/", getCompaniesFiltered);
 router.get("/", getAllCompanies);
 router.get("/:id", getCompanyById);
 

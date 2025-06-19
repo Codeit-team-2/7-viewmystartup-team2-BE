@@ -3,6 +3,7 @@ import {
   getAllCompaniesFromDB,
   getInvestmentOverviewCompaniesFromDB,
   getSelectedOverviewCompaniesFromDB,
+  getCompaniesFilteredFromDB,
   getCompanyByIdFromDB,
 } from "../../repositories/company/company.repository.js";
 import {
@@ -67,4 +68,8 @@ export const fetchSelectedOverviewCompanies = async ({ sortBy, order }) => {
  */
 export const fetchCompanyById = async (id) => {
   return await getCompanyByIdFromDB(id);
+};
+
+export const fetchCompaniesFiltered = async (keyword) => {
+  return await getCompaniesFilteredFromDB(keyword);
 };
