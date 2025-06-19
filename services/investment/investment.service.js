@@ -1,6 +1,30 @@
 // services/investment/investment.service.js
-import { getAllInvestmentsFromDB } from "../../repositories/investment/investment.repository.js";
+import {
+  deleteInvestmentRepo,
+  getAllInvestmentsFromDB,
+  updateInvestmentRepo,
+} from "../../repositories/investment/investment.repository.js";
 
-export const fetchAllInvestments = async () => {
-  return await getAllInvestmentsFromDB();
+export const fetchInvestmentsByCompanyId = async companyId => {
+  const investments = await getAllInvestmentsFromDB(companyId);
+  // 순위 계산 로직
+  return investments.map((inv, idx) => ({
+    ...inv,
+    rank: idx + 1,
+  }));
+};
+
+export const updateInvestmentService = async (
+  userId,
+  companyId,
+  { howMuch, comment }
+) => {
+  return await updateInvestmentRepo(userId, companyId, {
+    howMuch,
+    comment,
+  });
+};
+
+export const deleteInvestmentService = async investmentId => {
+  return await deleteInvestmentRepo(investmentId);
 };
