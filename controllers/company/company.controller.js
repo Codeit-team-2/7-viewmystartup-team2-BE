@@ -2,6 +2,8 @@
 import {
   fetchAllCompanies,
   fetchCompanyById,
+  fetchInvestmentOverviewCompanies,
+  fetchSelectedOverviewCompanies,
 } from "../../services/company/company.service.js";
 
 export const getAllCompanies = async (req, res) => {
@@ -9,14 +11,63 @@ export const getAllCompanies = async (req, res) => {
     const { sortBy, order } = req.query;
 
     //기본값도 config로 정리해도 좋을듯여
-    const sortField = sortBy ?? "revenue";   // 정렬 필드 기본값 매출액 revenue
-    const sortOrder = order ?? "desc";       // 정렬 기준 기본값 높은순 desc
+    const sortField = sortBy ?? "totalInvestment"; // 정렬 필드 기본값 누적투자금액 totalInvestment
+    const sortOrder = order ?? "desc"; // 정렬 기준 기본값 높은순 desc
+    console.log("입력한 sort : ", sortField, " 입력한 order : ", sortOrder);
 
-    const companies = await fetchAllCompanies({ sortBy: sortField, order: sortOrder });
+    const companies = await fetchAllCompanies({
+      sortBy: sortField,
+      order: sortOrder,
+    });
 
     res.status(200).json(companies);
   } catch (error) {
-    console.error("❌ [getAllCompanies] error:", error);
+    console.error(
+      "❌ [getAllCompanies] error:",
+      error,
+      "입력한 sort : ",
+      sortField,
+      " 입력한 order : ",
+      sortOrder
+    );
+    res.status(500).json({
+      error: `Internal Server Error '입력한 sort : ${sortField}, 입력한 order : ', sortOrder`,
+    });
+  }
+};
+
+export const getInvestmentOverviewCompanies = async (req, res) => {
+  try {
+    const { sortBy, order } = req.query;
+    const sortField = sortBy ?? "vmsInvestment";
+    const sortOrder = order ?? "desc";
+
+    const companies = await fetchInvestmentOverviewCompanies({
+      sortBy: sortField,
+      order: sortOrder,
+    });
+
+    res.status(200).json(companies);
+  } catch (error) {
+    console.error("❌ [getInvestmentOverviewCompanies] error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getSelectedOverviewCompanies = async (req, res) => {
+  try {
+    const { sortBy, order } = req.query;
+    const sortField = sortBy ?? "myCompanySelectedCount";
+    const sortOrder = order ?? "desc";
+
+    const companies = await fetchSelectedOverviewCompanies({
+      sortBy: sortField,
+      order: sortOrder,
+    });
+
+    res.status(200).json(companies);
+  } catch (error) {
+    console.error("❌ [getSelectedOverviewCompanies] error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
