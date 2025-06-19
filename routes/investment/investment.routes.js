@@ -3,7 +3,7 @@ import express from "express";
 import {
   deletedInvestmentController,
   getInvestmentsByCompanyId,
-  updateInvestmentAndNicknameController,
+  updateInvestmentController,
 } from "../../controllers/investment/investment.controller.js";
 
 const router = express.Router();
@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/:companyId/investments", getInvestmentsByCompanyId);
 router.patch(
   "/:companyId/investments/:userId/investment",
-  updateInvestmentAndNicknameController
+  updateInvestmentController
 );
 router.delete(
   "/:companyId/investments/:investmentId",

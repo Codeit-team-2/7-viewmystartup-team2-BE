@@ -1,9 +1,8 @@
 // services/investment/investment.service.js
 import {
-  deleteInvestment,
+  deleteInvestmentRepo,
   getAllInvestmentsFromDB,
-  updateInvestment,
-  updateUserNickname,
+  updateInvestmentRepo,
 } from "../../repositories/investment/investment.repository.js";
 
 export const fetchInvestmentsByCompanyId = async companyId => {
@@ -15,22 +14,17 @@ export const fetchInvestmentsByCompanyId = async companyId => {
   }));
 };
 
-export const updateInvestmentAndNickname = async (
+export const updateInvestmentService = async (
   userId,
   companyId,
-  { howMuch, comment, nickname }
+  { howMuch, comment }
 ) => {
-  const updatedInvestment = await updateInvestment(userId, companyId, {
+  return await updateInvestmentRepo(userId, companyId, {
     howMuch,
     comment,
   });
-  let updatedUser;
-  if (nickname) {
-    updatedUser = await updateUserNickname(userId, nickname);
-  }
-  return { updatedInvestment, updatedUser };
 };
 
-export const deletedInvestment = async investmentId => {
-  return await deleteInvestment(investmentId);
+export const deleteInvestmentService = async investmentId => {
+  return await deleteInvestmentRepo(investmentId);
 };

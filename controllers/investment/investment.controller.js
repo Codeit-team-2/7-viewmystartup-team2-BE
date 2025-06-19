@@ -1,8 +1,8 @@
 // controllers/investment/investment.controller.js
 import {
-  deletedInvestment,
+  deleteInvestmentService,
   fetchInvestmentsByCompanyId,
-  updateInvestmentAndNickname,
+  updateInvestmentService,
 } from "../../services/investment/investment.service.js";
 
 export const getInvestmentsByCompanyId = async (req, res) => {
@@ -16,14 +16,13 @@ export const getInvestmentsByCompanyId = async (req, res) => {
   }
 };
 
-export const updateInvestmentAndNicknameController = async (req, res) => {
+export const updateInvestmentController = async (req, res) => {
   try {
     const { companyId, userId } = req.params;
-    const { howMuch, comment, nickname } = req.body;
-    const result = await updateInvestmentAndNickname(userId, companyId, {
+    const { howMuch, comment } = req.body;
+    const result = await updateInvestmentService(userId, companyId, {
       howMuch,
       comment,
-      nickname,
     });
     res.status(200).json(result);
   } catch (error) {
@@ -35,7 +34,7 @@ export const updateInvestmentAndNicknameController = async (req, res) => {
 export const deletedInvestmentController = async (req, res) => {
   try {
     const { investmentId } = req.params;
-    await deletedInvestment(investmentId);
+    await deleteInvestmentService(investmentId);
     res.status(200).json({ message: "삭제 완료" });
   } catch (error) {
     console.error("❌ [deleteInvestment] error:", error);

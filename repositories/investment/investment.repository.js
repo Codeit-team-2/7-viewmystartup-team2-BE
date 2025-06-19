@@ -26,21 +26,15 @@ export const getAllInvestmentsFromDB = async companyId => {
   });
 };
 // 유저 투자 정보 수정
-export const updateInvestment = async (userId, companyId, updateData) => {
+export const updateInvestmentRepo = async (userId, companyId, updateData) => {
   return await prisma.investment.updateMany({
     where: { userId, companyId, deletedAt: null },
     data: updateData,
   });
 };
-// 유저 닉네임 변경
-export const updateUserNickname = async (userId, nickname) => {
-  return await prisma.user.update({
-    where: { id: userId },
-    data: { nickname },
-  });
-};
+
 // 투자 정보 삭제
-export const deleteInvestment = async investmentId => {
+export const deleteInvestmentRepo = async investmentId => {
   return await prisma.investment.update({
     where: { id: investmentId },
     data: { deletedAt: new Date() },
