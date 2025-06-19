@@ -26,7 +26,7 @@ app.use("/my-company-selections", myCompanySelectionRoutes);
 app.use("/compare-company-selections", compareCompanySelectionRoutes);
 
 // 서버 실행
-const PORT = 3333;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`✅ 서버가 http://localhost:${PORT}에서 실행 중...🚀`);
 });
