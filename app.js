@@ -7,7 +7,7 @@ import myCompanySelectionRoutes from "./routes/myCompanySelection/myCompanySelec
 import compareCompanySelectionRoutes from "./routes/compareCompanySelection/compareCompanySelection.routes.js";
 
 const app = express();
-app.use(cors());
+app.use(cors()); // ㅂ배포해야 cors에러 알수있음
 app.use(express.json());
 
 // user 라우터 등록
