@@ -67,11 +67,12 @@ export const getInvestmentOverviewCompanies = async (req, res) => {
 
 export const getSelectedOverviewCompanies = async (req, res) => {
   try {
-    const { sortBy, order } = req.query;
+    const { keyword = "", sortBy, order } = req.query;
     const sortField = sortBy ?? "myCompanySelectedCount";
     const sortOrder = order ?? "desc";
 
     const companies = await fetchSelectedOverviewCompanies({
+      keyword,
       sortBy: sortField,
       order: sortOrder,
     });

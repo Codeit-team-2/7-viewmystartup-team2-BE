@@ -14,19 +14,22 @@ import {
 } from "../../utils/company.mapper.js";
 
 //LandingPage용 dto
-export const fetchAllCompanies = async ({keyword, sortBy, order }) => {
+export const fetchAllCompanies = async ({ keyword, sortBy, order }) => {
   // 비즈니스 로직 추가 가능 (ex. 필터, 정렬, 계산 등)
-  const companies = await getAllCompaniesFromDB({keyword, sortBy, order });
+  const companies = await getAllCompaniesFromDB({ keyword, sortBy, order });
   return companies.map(companyToLandingPageDTO); // ✅ dto 변환
 };
 
 // const asdf = new companyToLandingPageDTO('asdf ', asdf)
 //prisma 의존성이 있는 상태임
-//원래는 dto class해서 인스턴스화해서 
-
+//원래는 dto class해서 인스턴스화해서
 
 //투자현황용 dto
-export const fetchInvestmentOverviewCompanies = async ({ keyword,sortBy, order }) => {
+export const fetchInvestmentOverviewCompanies = async ({
+  keyword,
+  sortBy,
+  order,
+}) => {
   const companies = await getInvestmentOverviewCompaniesFromDB({
     keyword,
     sortBy,
@@ -35,8 +38,16 @@ export const fetchInvestmentOverviewCompanies = async ({ keyword,sortBy, order }
   return companies.map(companyToInvestmentOverviewPageDTO);
 };
 
-export const fetchSelectedOverviewCompanies = async ({ sortBy, order }) => {
-  const companies = await getSelectedOverviewCompaniesFromDB({ sortBy, order });
+export const fetchSelectedOverviewCompanies = async ({
+  keyword,
+  sortBy,
+  order,
+}) => {
+  const companies = await getSelectedOverviewCompaniesFromDB({
+    keyword,
+    sortBy,
+    order,
+  });
 
   // _count 값으로 가공
   const mapped = companies.map((company) =>

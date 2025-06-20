@@ -94,16 +94,34 @@ export const getInvestmentOverviewCompaniesFromDB = async ({
 };
 
 //비교현황 페이지
-export const getSelectedOverviewCompaniesFromDB = async ({ sortBy, order }) => {
+export const getSelectedOverviewCompaniesFromDB = async ({
+  keyword,
+  sortBy,
+  order,
+}) => {
   const countFields = {
     myCompanySelectedCount: "myCompanySelections",
     compareCompanySelectedCount: "compareCompanySelections",
   };
   const allowedOrders = ["asc", "desc"];
-  const relationField = countFields[sortBy] || "myCompanySelections";
-  const sortOrder = allowedOrders.includes(order) ? order : "desc";
+  // const relationField = countFields[sortBy] || "myCompanySelections";
+  // const sortOrder = allowedOrders.includes(order) ? order : "desc";
+
+  const whereCondition = keyword
+    ? {
+        OR: [
+          {
+            companyName: { contains: keyword, mode: "insensitive" },
+          },
+          {
+            description: { contains: keyword, mode: "insensitive" },
+          },
+        ],
+      }
+    : undefined;
 
   return await prisma.company.findMany({
+    where: whereCondition,
     include: {
       _count: {
         select: {
@@ -112,6 +130,7 @@ export const getSelectedOverviewCompaniesFromDB = async ({ sortBy, order }) => {
         },
       },
     },
+    //정렬은 service에서 수동으로 하므로 orderBy 없음
   });
 };
 
