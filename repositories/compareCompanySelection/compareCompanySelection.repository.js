@@ -23,3 +23,13 @@ export const getCompareCompanySelectionCountByCompany = async () => {
     _count: true,
   });
 };
+
+// 비교 기업 선택 기록 추가
+export const postCompareCompanySelection = async (userId, companyId) => {
+  return await prisma.compareCompanySelection.create({
+    data: {
+      user: { connect: { id: userId } },
+      company: { connect: { id: companyId } },
+    },
+  });
+};

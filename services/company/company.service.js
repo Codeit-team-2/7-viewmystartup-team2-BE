@@ -96,9 +96,7 @@ export const fetchCompaniesFiltered = async (keyword) => {
 // 그리고 그 목록에 있는 id에 getCompanyByIdFromDB 적용해서 데이터 가져옴
 export const fetchRecentMyCompanies = async (userId) => {
   const companiesId = await getMyCompanySelectionByIdFromDB(userId);
-  console.log(companiesId);
   const companiesIdList = companiesId.map((c) => c.companyId);
-  console.log(companiesIdList);
   return await Promise.all(
     companiesIdList.map((id) => getCompanyByIdFromDB(id))
   );

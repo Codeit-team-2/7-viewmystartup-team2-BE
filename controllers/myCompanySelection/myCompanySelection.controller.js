@@ -26,7 +26,7 @@ export const getMyCompanySelectionCounts = async (req, res) => {
 };
 
 export const postMyCompanySelection = async (req, res) => {
-  const { userId, companyId } = req.query;
+  const { userId, companyId } = req.body;
   try {
     const result = await createMyCompanySelection(userId, companyId);
     res.status(200).json(result);
