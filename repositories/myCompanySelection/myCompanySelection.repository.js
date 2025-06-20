@@ -40,3 +40,13 @@ export const getMyCompanySelectionByIdFromDB = async (userId) => {
     take: 5,
   });
 };
+
+// 나의 기업 선택 기록 추가
+export const postMyCompanySelection = async (userId, companyId) => {
+  return await prisma.myCompanySelection.create({
+    data: {
+      user: { connect: { id: userId } },
+      company: { connect: { id: companyId } },
+    },
+  });
+};
