@@ -40,3 +40,19 @@ export const deleteInvestmentRepo = async investmentId => {
     data: { deletedAt: new Date() },
   });
 };
+export const postInvestmentsFromDB = async (form) => {
+  return await prisma.investment.create({
+    data: {
+      user: {
+        connect: { id: form.userId }, // User 테이블에 있는 유저 ID
+      },
+      company: {
+        connect: { id: form.companyId }, // Company 테이블의 ID
+      },
+      howMuch: form.howMuch, // 필수
+      comment: form.comment, // 선택
+    },
+  });
+};
+
+//추후 createInvestment, getInvestmentsByUserId 같은 것 예정

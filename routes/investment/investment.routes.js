@@ -4,6 +4,7 @@ import {
   deletedInvestmentController,
   getInvestmentsByCompanyId,
   updateInvestmentController,
+  postInvestments,
 } from "../../controllers/investment/investment.controller.js";
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.delete(
   "/:companyId/investments/:investmentId",
   deletedInvestmentController
 );
+router.post("/", postInvestments);
 
 export default router;
