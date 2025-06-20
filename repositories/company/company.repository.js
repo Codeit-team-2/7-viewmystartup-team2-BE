@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 //LandingPage용 get
-export const getAllCompaniesFromDB = async ({ sortBy, order }) => {
+export const getAllCompaniesFromDB = async ({ keyword, sortBy, order }) => {
   //나중에 config로 뺍시당
   const allowedFields = ["revenue", "totalInvestment", "employees"];
   const allowedOrders = ["asc", "desc"];
@@ -13,7 +13,40 @@ export const getAllCompaniesFromDB = async ({ sortBy, order }) => {
   const sortField = allowedFields.includes(sortBy) ? sortBy : "revenue";
   const sortOrder = allowedOrders.includes(order) ? order : "desc";
 
+  //키워드 있으면 키워드넣고 공란이면 그냥 넘어가서 기본 sort order만 적용
+
+  //기업이름, 기업설명도 함께 검색
+  const whereCondition = keyword
+    ? {
+        OR: [
+          {
+            companyName: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            description: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+        ],
+      }
+    : undefined;
+
+  // 기업이름만 검색
+  // const whereCondition = keyword
+  //   ? {
+  //       companyName: {
+  //         contains: keyword,
+  //         mode: "insensitive", // 대소문자 구분 없음
+  //       },
+  //     }
+  //   : undefined;
+
   return prisma.company.findMany({
+    where: whereCondition,
     orderBy: {
       [sortField]: sortOrder,
     },
@@ -22,6 +55,7 @@ export const getAllCompaniesFromDB = async ({ sortBy, order }) => {
 
 //투자현황 페이지
 export const getInvestmentOverviewCompaniesFromDB = async ({
+  keyword,
   sortBy,
   order,
 }) => {
@@ -29,7 +63,22 @@ export const getInvestmentOverviewCompaniesFromDB = async ({
   const allowedOrders = ["asc", "desc"];
   const sortField = allowedFields.includes(sortBy) ? sortBy : "vmsInvestment";
   const sortOrder = allowedOrders.includes(order) ? order : "desc";
+
+  const whereCondition = keyword
+    ? {
+        OR: [
+          {
+            companyName: { contains: keyword, mode: "insensitive" },
+          },
+          {
+            description: { contains: keyword, mode: "insensitive" },
+          },
+        ],
+      }
+    : undefined;
+
   return await prisma.company.findMany({
+    where: whereCondition, // ✅ now conditional
     include: {
       _count: {
         select: {
@@ -39,9 +88,7 @@ export const getInvestmentOverviewCompaniesFromDB = async ({
       },
     },
     orderBy: {
-      _count: {
-        [sortField]: sortOrder,
-      },
+      [sortField]: sortOrder,
     },
   });
 };
