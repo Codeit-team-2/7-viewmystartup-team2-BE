@@ -6,6 +6,7 @@ import {
   getCompaniesFilteredFromDB,
   getCompanyByIdFromDB,
 } from "../../repositories/company/company.repository.js";
+import { getMyCompanySelectionByIdFromDB } from "../../repositories/myCompanySelection/myCompanySelection.repository.js";
 import {
   companyToLandingPageDTO,
   companyToInvestmentOverviewPageDTO,
@@ -72,4 +73,16 @@ export const fetchCompanyById = async (id) => {
 
 export const fetchCompaniesFiltered = async (keyword) => {
   return await getCompaniesFilteredFromDB(keyword);
+};
+
+// getMyCompanySelectionByIdFromDB로, MyCompanySelection에서 해당하는 기업 id 목록 가져옴
+// 그리고 그 목록에 있는 id에 getCompanyByIdFromDB 적용해서 데이터 가져옴
+export const fetchRecentMyCompanies = async (userId) => {
+  const companiesId = await getMyCompanySelectionByIdFromDB(userId);
+  console.log(companiesId);
+  const companiesIdList = companiesId.map((c) => c.companyId);
+  console.log(companiesIdList);
+  return await Promise.all(
+    companiesIdList.map((id) => getCompanyByIdFromDB(id))
+  );
 };
