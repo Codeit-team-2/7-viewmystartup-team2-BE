@@ -3,6 +3,7 @@ import {
   deleteInvestmentRepo,
   getAllInvestmentsFromDB,
   updateInvestmentRepo,
+  postInvestmentsFromDB,
 } from "../../repositories/investment/investment.repository.js";
 
 export const fetchInvestmentsByCompanyId = async companyId => {
@@ -27,4 +28,8 @@ export const updateInvestmentService = async (
 
 export const deleteInvestmentService = async investmentId => {
   return await deleteInvestmentRepo(investmentId);
+};
+
+export const postInvestments = async (form) => {
+  return await postInvestmentsFromDB(form);
 };

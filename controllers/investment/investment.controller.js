@@ -3,6 +3,7 @@ import {
   deleteInvestmentService,
   fetchInvestmentsByCompanyId,
   updateInvestmentService,
+  postInvestments as postInvestmentService,
 } from "../../services/investment/investment.service.js";
 
 export const getInvestmentsByCompanyId = async (req, res) => {
@@ -39,5 +40,16 @@ export const deletedInvestmentController = async (req, res) => {
   } catch (error) {
     console.error("❌ [deleteInvestment] error:", error);
     res.status(500).json({ error: "삭제 실패" });
+  }
+};
+
+export const postInvestments = async (req, res) => {
+  try {
+    const form = req.body;
+    const investments = await postInvestmentService(form);
+    res.status(200).json(investments);
+  } catch (error) {
+    console.error("❌ [postInvestments] error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
