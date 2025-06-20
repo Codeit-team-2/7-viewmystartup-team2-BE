@@ -1,7 +1,7 @@
 // routes/company/company.routes.js
 import express from "express";
 import {
-  getAllCompanies,
+  getSortedFilteredCompanies,
   getCompaniesFiltered,
   getCompanyById,
   getInvestmentOverviewCompanies,
@@ -19,7 +19,7 @@ router.get("/recent", getRecentMyCompanies);
 router.get("/investment-overview", getInvestmentOverviewCompanies);
 router.get("/selected-overview", getSelectedOverviewCompanies);
 router.get("/filtered/", getCompaniesFiltered);
-router.get("/", getAllCompanies);
+router.get("/", getSortedFilteredCompanies);
 router.get("/:id", getCompanyById);
 
 /**

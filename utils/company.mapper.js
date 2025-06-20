@@ -1,4 +1,15 @@
 //utils/company.mapper.js
+
+class CompanyToLandingPageDTO {
+  //이 프로퍼티 가지고 있는애들로
+  // companyName=com,
+  // description,
+  // category,
+  // revenue,
+  // totalInvestment,
+  // employees,
+}
+
 export const companyToLandingPageDTO = (company) => ({
   companyName: company.companyName,
   description: company.description,

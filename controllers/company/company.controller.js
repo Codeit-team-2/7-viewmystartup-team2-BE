@@ -8,16 +8,24 @@ import {
   fetchSelectedOverviewCompanies,
 } from "../../services/company/company.service.js";
 
-export const getAllCompanies = async (req, res) => {
-  try {
-    const { sortBy, order } = req.query;
+export const getSortedFilteredCompanies = async (req, res) => {
+  const { keyword = "", sortBy, order } = req.query;
 
-    //기본값도 config로 정리해도 좋을듯여
-    const sortField = sortBy ?? "totalInvestment"; // 정렬 필드 기본값 누적투자금액 totalInvestment
-    const sortOrder = order ?? "desc"; // 정렬 기준 기본값 높은순 desc
-    console.log("입력한 sort : ", sortField, " 입력한 order : ", sortOrder);
+  //기본값도 config로 정리해도 좋을듯여
+  const sortField = sortBy ?? "totalInvestment"; // 정렬 필드 기본값 누적투자금액 totalInvestment
+  const sortOrder = order ?? "desc"; // 정렬 기준 기본값 높은순 desc
+  try {
+    console.log(
+      "입력한 sortBy : ",
+      sortField,
+      " 입력한 order : ",
+      sortOrder,
+      " keyword: ",
+      keyword
+    );
 
     const companies = await fetchAllCompanies({
+      keyword,
       sortBy: sortField,
       order: sortOrder,
     });
@@ -40,11 +48,12 @@ export const getAllCompanies = async (req, res) => {
 
 export const getInvestmentOverviewCompanies = async (req, res) => {
   try {
-    const { sortBy, order } = req.query;
+    const { keyword = "", sortBy, order } = req.query;
     const sortField = sortBy ?? "vmsInvestment";
     const sortOrder = order ?? "desc";
 
     const companies = await fetchInvestmentOverviewCompanies({
+      keyword,
       sortBy: sortField,
       order: sortOrder,
     });
@@ -58,11 +67,12 @@ export const getInvestmentOverviewCompanies = async (req, res) => {
 
 export const getSelectedOverviewCompanies = async (req, res) => {
   try {
-    const { sortBy, order } = req.query;
+    const { keyword = "", sortBy, order } = req.query;
     const sortField = sortBy ?? "myCompanySelectedCount";
     const sortOrder = order ?? "desc";
 
     const companies = await fetchSelectedOverviewCompanies({
+      keyword,
       sortBy: sortField,
       order: sortOrder,
     });
