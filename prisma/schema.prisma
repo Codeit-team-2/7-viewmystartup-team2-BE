@@ -17,7 +17,7 @@ model User {
   myCompanySelections      MyCompanySelection[]
   compareCompanySelections CompareCompanySelection[]
 }
-
+//UserIcon, createdAt, updatedAt,deletedAt 추가예정
 model Company {
   id                       String                    @id @default(uuid())
   companyName              String
@@ -33,6 +33,7 @@ model Company {
   myCompanySelections      MyCompanySelection[]
   compareCompanySelections CompareCompanySelection[]
 }
+//companyImgUrl 추가예정
 
 model Investment {
   id        String    @id @default(uuid())
