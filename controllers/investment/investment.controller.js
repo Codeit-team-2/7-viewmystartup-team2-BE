@@ -1,4 +1,5 @@
 // controllers/investment/investment.controller.js
+import { tr } from "@faker-js/faker";
 import {
   deleteInvestmentService,
   fetchInvestmentsByCompanyId,
@@ -6,6 +7,7 @@ import {
   postInvestments as postInvestmentService,
   passwordCheckService,
   fetchCompanyDetailService,
+  MatchingUsersList,
 } from "../../services/investment/investment.service.js";
 
 export const getCompanyDetail = async (req, res) => {
@@ -78,6 +80,21 @@ export const postInvestments = async (req, res) => {
     res.status(200).json(investments);
   } catch (error) {
     console.error("❌ [postInvestments] error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getInvestmentByUserIdList = async (req, res) => {
+  try {
+    const { userId, nickname } = req.query;
+
+    if (!userId && !nickname) {
+      return res.status(400).json({ error: "userid or nickname 중 하나오류" });
+    }
+    const listInvestments = await MatchingUsersList(userId, nickname);
+    res.status(200).json(listInvestments);
+  } catch (error) {
+    console.error("[getInvestmentByUserIdList] error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

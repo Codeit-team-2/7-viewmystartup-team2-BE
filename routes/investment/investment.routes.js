@@ -7,6 +7,7 @@ import {
   postInvestments,
   passwordCheckController,
   getCompanyDetail,
+  getInvestmentByUserIdList,
 } from "../../controllers/investment/investment.controller.js";
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.patch("/investments/:investmentId", updateInvestmentController);
 router.delete("/investments/:investmentId", deletedInvestmentController);
 router.post("/users/:userId/passwordcheck", passwordCheckController);
 router.post("/", postInvestments);
+router.get("/", getInvestmentByUserIdList);
 
 export default router;

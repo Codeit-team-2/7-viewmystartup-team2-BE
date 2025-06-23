@@ -7,7 +7,7 @@ const clean = (str) => str?.replace(/\u0000/g, "") || "";
  * faker 데이터 설정
  * 아래에서 숫자만 바꾸세요
  * *********/
-const USER_NUM = 200;
+const USER_NUM = 10;
 const COMPANY_NUM = 85;
 const INVESTMENT_LOG_NUM = 100;
 const MY_SELECTION_NUM = 50; // 내가 선택한 기업 수

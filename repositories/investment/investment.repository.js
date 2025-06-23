@@ -48,7 +48,7 @@ export const updateInvestmentRepo = async (investmentId, updateData) => {
 };
 
 // 투자 정보 삭제
-export const deleteInvestmentRepo = async investmentId => {
+export const deleteInvestmentRepo = async (investmentId) => {
   return await prisma.investment.update({
     where: { id: investmentId },
     data: { deletedAt: new Date() },
@@ -109,3 +109,27 @@ export const createInvestment = (
 // };
 
 //추후 createInvestment, getInvestmentsByUserId 같은 것 예정
+
+export const getInvestmentUserListByDB = async (userId, nickname) => {
+  return await prisma.investment.findMany({
+    where: {
+      OR: [
+        userId ? { userId: userId } : undefined,
+        nickname ? { user: { nickname: nickname } } : undefined,
+      ].filter(Boolean),
+    },
+    select: {
+      company: {
+        select: {
+          companyName: true,
+          category: true,
+        },
+      },
+      comment: true,
+      howMuch: true,
+    },
+    orderBy: {
+      howMuch: "desc",
+    },
+  });
+};

@@ -8,7 +8,7 @@ import {
   createInvestment,
   getUser,
   getCompanyFromDB,
-  // postInvestmentsFromDB,
+  getInvestmentUserListByDB,
 } from "../../repositories/investment/investment.repository.js";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -18,7 +18,7 @@ export const fetchCompanyDetailService = async companyId => {
   return await getCompanyFromDB(companyId);
 };
 
-export const fetchInvestmentsByCompanyId = async companyId => {
+export const fetchInvestmentsByCompanyId = async (companyId) => {
   const investments = await getAllInvestmentsFromDB(companyId);
   // 순위 계산 로직
   return investments.map((inv, idx) => ({
@@ -95,4 +95,16 @@ export const passwordCheckService = async (userId, password) => {
   const isMatch = password === user.password;
   if (!isMatch) throw { status: 401, message: "비밀번호가 일치하지 않습니다." };
   return { message: "비밀번호 일치" };
+};
+
+export const MatchingUsersList = async (userId, nickname) => {
+  if (!userId && !nickname) {
+    throw new Error("userId 또는 nickname 중 하나는 필수입니다.");
+  }
+  try {
+    return await getInvestmentUserListByDB(userId, nickname);
+  } catch (error) {
+    console.error("[MatchingUsersList] error:", error);
+    throw error;
+  }
 };
