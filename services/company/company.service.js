@@ -51,18 +51,18 @@ export const fetchSelectedOverviewCompanies = async ({
 
   // _count 값으로 가공
   const mapped = companies.map((company) =>
-    companyToSelectedOverviewPageDTO({
-      ...company,
-      myCompanySelectedCount: company._count.myCompanySelections,
-      compareCompanySelectedCount: company._count.compareCompanySelections,
-    })
+    companyToSelectedOverviewPageDTO(
+      {
+        ...company,
+        myCompanySelectedCount: company._count.myCompanySelections,
+        compareSelectedCount: company._count.compareCompanySelections,
+      }
+      // console.log(company)
+    )
   );
 
   // 정렬 필드 확인
-  const allowedFields = [
-    "myCompanySelectedCount",
-    "compareCompanySelectedCount",
-  ];
+  const allowedFields = ["myCompanySelectedCount", "compareSelectedCount"];
   const allowedOrders = ["asc", "desc"];
   const sortField = allowedFields.includes(sortBy)
     ? sortBy
@@ -79,11 +79,6 @@ export const fetchSelectedOverviewCompanies = async ({
   return mapped;
 };
 
-//dto를 클래스로 만들어서
-// 응답할때 클래스 인스턴스로 응답하게
-/**
- * 필요한것만 나오게끔 할 수 있다
- */
 export const fetchCompanyById = async (id) => {
   return await getCompanyByIdFromDB(id);
 };
