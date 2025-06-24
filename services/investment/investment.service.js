@@ -6,12 +6,19 @@ import {
   findUserById,
   decrementUserBalance,
   createInvestment,
+  getUser,
+  getCompanyFromDB,
   // postInvestmentsFromDB,
 } from "../../repositories/investment/investment.repository.js";
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
-export const fetchInvestmentsByCompanyId = async (companyId) => {
+export const fetchCompanyDetailService = async companyId => {
+  return await getCompanyFromDB(companyId);
+};
+
+export const fetchInvestmentsByCompanyId = async companyId => {
   const investments = await getAllInvestmentsFromDB(companyId);
   // 순위 계산 로직
   return investments.map((inv, idx) => ({
@@ -21,18 +28,23 @@ export const fetchInvestmentsByCompanyId = async (companyId) => {
 };
 
 export const updateInvestmentService = async (
+  investmentId,
   userId,
-  companyId,
-  { howMuch, comment }
+  password,
+  updateData
 ) => {
-  return await updateInvestmentRepo(userId, companyId, {
-    howMuch,
-    comment,
-  });
-};
-
-export const deleteInvestmentService = async (investmentId) => {
-  return await deleteInvestmentRepo(investmentId);
+  // 유저 조회
+  const user = await getUser(userId);
+  if (!user) {
+    throw { status: 404, message: "유저를 찾을 수 없습니다." };
+  }
+  // 비밀번호 검증
+  // const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = password === user.password;
+  if (!isMatch) {
+    throw { status: 401, message: "비밀번호가 일치하지 않습니다." };
+  }
+  return await updateInvestmentRepo(investmentId, updateData);
 };
 
 export const postInvestments = async ({
@@ -55,4 +67,32 @@ export const postInvestments = async ({
   ]);
 
   return investment;
+};
+export const deleteInvestmentService = async (
+  investmentId,
+  userId,
+  password
+) => {
+  // 유저 조회
+  const user = await getUser(userId);
+  if (!user) {
+    throw { status: 404, message: "유저를 찾을 수 없습니다." };
+  }
+  // 비밀번호 검증
+  // const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = password === user.password;
+  if (!isMatch) {
+    throw { status: 401, message: "비밀번호가 일치하지 않습니다." };
+  }
+  return await deleteInvestmentRepo(investmentId);
+};
+
+// 비밀번호만 검증
+export const passwordCheckService = async (userId, password) => {
+  const user = await getUser(userId);
+  if (!user) throw { status: 404, message: "유저를 찾을 수 없습니다." };
+  // const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = password === user.password;
+  if (!isMatch) throw { status: 401, message: "비밀번호가 일치하지 않습니다." };
+  return { message: "비밀번호 일치" };
 };

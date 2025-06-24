@@ -4,7 +4,22 @@ import {
   fetchInvestmentsByCompanyId,
   updateInvestmentService,
   postInvestments as postInvestmentService,
+  passwordCheckService,
+  fetchCompanyDetailService,
 } from "../../services/investment/investment.service.js";
+
+export const getCompanyDetail = async (req, res) => {
+  const { companyId } = req.params;
+  try {
+    const company = await fetchCompanyDetailService(companyId);
+    if (!company) {
+      return res.status(404).json({ error: "기업을 찾을 수 없습니다." });
+    }
+    res.status(200).json(company);
+  } catch (eroor) {
+    res.status(500).json({ error: "서버 오류" });
+  }
+};
 
 export const getInvestmentsByCompanyId = async (req, res) => {
   try {
@@ -18,14 +33,15 @@ export const getInvestmentsByCompanyId = async (req, res) => {
 };
 
 export const updateInvestmentController = async (req, res) => {
+  const { investmentId } = req.params;
+  const { userId, password, howMuch, comment } = req.body;
   try {
-    const { companyId, userId } = req.params;
-    const { howMuch, comment } = req.body;
-    const result = await updateInvestmentService(userId, companyId, {
-      howMuch,
+    await updateInvestmentService(investmentId, userId, password, {
+      howMuch: Number(howMuch),
       comment,
+      updatedAt: new Date(),
     });
-    res.status(200).json(result);
+    res.status(200).json({ message: "수정 완료" });
   } catch (error) {
     console.error("❌ [updateInvestment] error:", error);
     res.status(500).json({ error: "수정 실패" });
@@ -33,13 +49,25 @@ export const updateInvestmentController = async (req, res) => {
 };
 
 export const deletedInvestmentController = async (req, res) => {
+  const { investmentId } = req.params;
+  const { userId, password } = req.body;
   try {
-    const { investmentId } = req.params;
-    await deleteInvestmentService(investmentId);
+    await deleteInvestmentService(investmentId, userId, password);
     res.status(200).json({ message: "삭제 완료" });
   } catch (error) {
     console.error("❌ [deleteInvestment] error:", error);
     res.status(500).json({ error: "삭제 실패" });
+  }
+};
+
+export const passwordCheckController = async (req, res) => {
+  const { userId } = req.params;
+  const { password } = req.body;
+  try {
+    await passwordCheckService(userId, password);
+    res.status(200).json({ message: "비밀번호 일치" });
+  } catch (error) {
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
