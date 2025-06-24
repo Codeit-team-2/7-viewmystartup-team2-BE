@@ -3,13 +3,13 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 // 기업 정보 조회
-export const getCompanyFromDB = async companyId => {
+export const getCompanyFromDB = async (companyId) => {
   return await prisma.company.findUnique({
     where: { id: companyId },
   });
 };
 
-export const getAllInvestmentsFromDB = async companyId => {
+export const getAllInvestmentsFromDB = async (companyId) => {
   return await prisma.investment.findMany({
     //id랑 닉네임만 가져오기 아래처럼 필요한 필드만 가져올수있음
     where: {
@@ -33,7 +33,7 @@ export const getAllInvestmentsFromDB = async companyId => {
   });
 };
 // 유저 조회
-export const getUser = async userId => {
+export const getUser = async (userId) => {
   return await prisma.user.findUnique({
     where: { id: userId },
     select: { id: true, password: true },
@@ -56,7 +56,7 @@ export const deleteInvestmentRepo = async (investmentId) => {
 };
 
 // 유저 정보 가져오기
-export const findUserById = async userId => {
+export const findUserById = async (userId) => {
   return await prisma.user.findUnique({
     where: { id: userId },
   });
@@ -158,6 +158,7 @@ export const getInvestmentUserListByDB = async ({
               },
             }
           : {},
+        { deletedAt: null }, // ✅ 여기에 추가
       ],
     },
     select: {
