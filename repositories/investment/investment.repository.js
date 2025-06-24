@@ -48,7 +48,7 @@ export const updateInvestmentRepo = async (investmentId, updateData) => {
 };
 
 // 투자 정보 삭제
-export const deleteInvestmentRepo = async investmentId => {
+export const deleteInvestmentRepo = async (investmentId) => {
   return await prisma.investment.update({
     where: { id: investmentId },
     data: { deletedAt: new Date() },
@@ -109,3 +109,66 @@ export const createInvestment = (
 // };
 
 //추후 createInvestment, getInvestmentsByUserId 같은 것 예정
+
+const sortFieldMap = {
+  vmsInvestment: "howMuch",
+  totalInvestment: "company.totalInvestment", // 예시, 관계 필드 정렬 시 이렇게
+  // 필요하면 다른 매핑도 추가
+};
+
+export const getInvestmentUserListByDB = async ({
+  userId,
+  nickname,
+  sortBy = "howMuch",
+  order = "desc",
+  keyword = "",
+}) => {
+  // 서버에서는 실제 DB 컬럼명으로 매핑
+  let prismaSortField = sortFieldMap[sortBy] || sortBy;
+
+  let orderByOption;
+
+  if (prismaSortField.includes(".")) {
+    // 관계 필드 정렬 처리
+    const [relation, field] = prismaSortField.split(".");
+    orderByOption = { [relation]: { [field]: order } };
+  } else {
+    // 직접 필드 정렬 처리
+    orderByOption = { [prismaSortField]: order };
+  }
+
+  return await prisma.investment.findMany({
+    where: {
+      AND: [
+        {
+          OR: [
+            userId ? { userId } : undefined,
+            nickname ? { user: { nickname } } : undefined,
+          ].filter(Boolean),
+        },
+        keyword
+          ? {
+              company: {
+                companyName: {
+                  contains: keyword,
+                  mode: "insensitive",
+                },
+              },
+            }
+          : {},
+      ],
+    },
+    select: {
+      company: {
+        select: {
+          companyName: true,
+          category: true,
+          totalInvestment: true,
+        },
+      },
+      comment: true,
+      howMuch: true,
+    },
+    orderBy: orderByOption,
+  });
+};

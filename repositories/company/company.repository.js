@@ -1,4 +1,5 @@
 // repositories/company/company.repository.js
+import { tr } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -144,5 +145,13 @@ export const getCompanyByIdFromDB = async (id) => {
 export const getCompaniesFilteredFromDB = async (keyword) => {
   return await prisma.company.findMany({
     where: { companyName: { contains: keyword, mode: "insensitive" } },
+  });
+};
+
+//기업명 클릭 => 기업id출력
+export const getIdByCompanyFromDB = async (companyName) => {
+  return await prisma.company.findFirst({
+    where: { companyName },
+    select: { id: true },
   });
 };

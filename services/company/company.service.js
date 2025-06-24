@@ -5,6 +5,7 @@ import {
   getSelectedOverviewCompaniesFromDB,
   getCompaniesFilteredFromDB,
   getCompanyByIdFromDB,
+  getIdByCompanyFromDB,
 } from "../../repositories/company/company.repository.js";
 import { getMyCompanySelectionByIdFromDB } from "../../repositories/myCompanySelection/myCompanySelection.repository.js";
 import {
@@ -95,4 +96,9 @@ export const fetchRecentMyCompanies = async (userId) => {
   return await Promise.all(
     companiesIdList.map((id) => getCompanyByIdFromDB(id))
   );
+};
+
+export const fetchIdByCompany = async (companyName) => {
+  const companyId = await getIdByCompanyFromDB(companyName);
+  return companyId.id;
 };
