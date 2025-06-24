@@ -142,10 +142,14 @@ export const getCompanyByIdFromDB = async (id) => {
 };
 //createCompany, countByCompanyId, deleteCompanyById등도 여기로 확장될 예정
 
-export const getCompaniesFilteredFromDB = async (keyword) => {
-  return await prisma.company.findMany({
-    where: { companyName: { contains: keyword, mode: "insensitive" } },
-  });
+export const getCompaniesFilteredFromDB = async (keyword, id) => {
+  const where = { companyName: { contains: keyword, mode: "insensitive" } };
+
+  if (id) {
+    where.id = { not: id };
+  }
+
+  return await prisma.company.findMany({ where });
 };
 
 //기업명 클릭 => 기업id출력

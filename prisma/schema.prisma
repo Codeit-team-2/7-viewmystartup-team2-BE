@@ -13,55 +13,54 @@ model User {
   balance                  Int
   email                    String                    @unique
   nickname                 String                    @unique
+  compareCompanySelections CompareCompanySelection[]
   investments              Investment[]
   myCompanySelections      MyCompanySelection[]
-  compareCompanySelections CompareCompanySelection[]
 }
-//UserIcon, createdAt, updatedAt,deletedAt 추가예정
+
 model Company {
-  id                       String                    @id @default(uuid())
+  category                 String
   companyName              String
   description              String
-  category                 String
-  revenue                  Float
-  employees                Int
-  totalInvestment          Float
+  id                       String                    @id @default(uuid())
   investmentStage          String
   investors                String
+  employees                Int
+  revenue                  Float
+  totalInvestment          Float
   vmsInvestment            Float
+  compareCompanySelections CompareCompanySelection[]
   investments              Investment[]
   myCompanySelections      MyCompanySelection[]
-  compareCompanySelections CompareCompanySelection[]
 }
-//companyImgUrl 추가예정
 
 model Investment {
   id        String    @id @default(uuid())
-  user      User      @relation(fields: [userId], references: [id])
   userId    String
-  company   Company   @relation(fields: [companyId], references: [id])
   companyId String
   howMuch   Int
   comment   String?
   createdAt DateTime  @default(now())
   deletedAt DateTime?
   updatedAt DateTime  @updatedAt
+  company   Company   @relation(fields: [companyId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 model MyCompanySelection {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
   userId    String
-  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
   createdAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model CompareCompanySelection {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
   userId    String
-  company   Company  @relation(fields: [companyId], references: [id])
   companyId String
   createdAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
