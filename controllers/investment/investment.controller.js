@@ -80,7 +80,8 @@ export const postInvestments = async (req, res) => {
     res.status(200).json(investments);
   } catch (error) {
     console.error("❌ [postInvestments] error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: error.message });
+    //(500->400 Invalid user , 잔액부족 등 클라이언트 실수)
   }
 };
 
