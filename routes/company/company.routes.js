@@ -7,6 +7,7 @@ import {
   getInvestmentOverviewCompanies,
   getRecentMyCompanies,
   getSelectedOverviewCompanies,
+  getIdByCompanyName,
 } from "../../controllers/company/company.controller.js";
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.get("/investment-overview", getInvestmentOverviewCompanies);
 router.get("/selected-overview", getSelectedOverviewCompanies);
 router.get("/filtered/", getCompaniesFiltered);
 router.get("/", getSortedFilteredCompanies);
+router.get("/companyName", getIdByCompanyName);
 router.get("/:id", getCompanyById);
 
 export default router;

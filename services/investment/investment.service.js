@@ -97,12 +97,24 @@ export const passwordCheckService = async (userId, password) => {
   return { message: "비밀번호 일치" };
 };
 
-export const MatchingUsersList = async (userId, nickname) => {
+export const MatchingUsersList = async ({
+  userId,
+  nickname,
+  sortBy,
+  order,
+  keyword,
+}) => {
   if (!userId && !nickname) {
     throw new Error("userId 또는 nickname 중 하나는 필수입니다.");
   }
   try {
-    return await getInvestmentUserListByDB(userId, nickname);
+    return await getInvestmentUserListByDB({
+      userId,
+      nickname,
+      sortBy,
+      order,
+      keyword,
+    });
   } catch (error) {
     console.error("[MatchingUsersList] error:", error);
     throw error;

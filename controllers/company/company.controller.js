@@ -6,6 +6,7 @@ import {
   fetchInvestmentOverviewCompanies,
   fetchRecentMyCompanies,
   fetchSelectedOverviewCompanies,
+  fetchIdByCompany,
 } from "../../services/company/company.service.js";
 
 export const getSortedFilteredCompanies = async (req, res) => {
@@ -116,6 +117,23 @@ export const getRecentMyCompanies = async (req, res) => {
     res.status(200).json(companies);
   } catch (error) {
     console.error("❌ [getRecentMyCompanies] error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getIdByCompanyName = async (req, res) => {
+  try {
+    const { companyName } = req.query;
+
+    if (!companyName) {
+      return res.status(400).json({ error: "companyName eroor" });
+    }
+
+    const company = await fetchIdByCompany(companyName);
+    console.log("👉 fetchIdByCompany result:", company);
+    res.status(200).json({ id: company });
+  } catch (error) {
+    console.error("[getIdByCompanyName] error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

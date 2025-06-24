@@ -86,12 +86,18 @@ export const postInvestments = async (req, res) => {
 
 export const getInvestmentByUserIdList = async (req, res) => {
   try {
-    const { userId, nickname } = req.query;
+    const { userId, nickname, sortBy, order, keyword } = req.query;
 
     if (!userId && !nickname) {
       return res.status(400).json({ error: "userid or nickname 중 하나오류" });
     }
-    const listInvestments = await MatchingUsersList(userId, nickname);
+    const listInvestments = await MatchingUsersList({
+      userId,
+      nickname,
+      sortBy: sortBy || "howMuch",
+      order: order || "desc",
+      keyword: keyword || "",
+    });
     res.status(200).json(listInvestments);
   } catch (error) {
     console.error("[getInvestmentByUserIdList] error:", error);

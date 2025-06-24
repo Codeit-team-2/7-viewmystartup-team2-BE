@@ -31,6 +31,7 @@ app.use("/compare-company-selections", compareCompanySelectionRoutes);
 // auth 라우터
 app.use("/auth", authRoutes);
 
+
 // 서버 실행
 const PORT = 3000;
 app.listen(PORT, () => {
