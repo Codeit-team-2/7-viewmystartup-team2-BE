@@ -61,6 +61,8 @@ export const findUserById = async userId => {
     where: { id: userId },
   });
 };
+
+
 // 유저 잔액 차감
 export const decrementUserBalance = (prisma, userId, howMuch) => {
   return prisma.user.update({
