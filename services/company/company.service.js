@@ -84,8 +84,8 @@ export const fetchCompanyById = async (id) => {
   return await getCompanyByIdFromDB(id);
 };
 
-export const fetchCompaniesFiltered = async (keyword) => {
-  return await getCompaniesFilteredFromDB(keyword);
+export const fetchCompaniesFiltered = async (keyword, id) => {
+  return await getCompaniesFilteredFromDB(keyword, id);
 };
 
 // getMyCompanySelectionByIdFromDB로, MyCompanySelection에서 해당하는 기업 id 목록 가져옴

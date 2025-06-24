@@ -38,6 +38,7 @@ export const getMyCompanySelectionByIdFromDB = async (userId) => {
       companyId: true,
     },
     take: 5,
+    distinct: ["companyId"],
   });
 };
 

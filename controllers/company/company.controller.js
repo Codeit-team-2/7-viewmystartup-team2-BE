@@ -100,9 +100,9 @@ export const getCompanyById = async (req, res) => {
 };
 
 export const getCompaniesFiltered = async (req, res) => {
-  const { keyword } = req.query;
+  const { keyword, id } = req.query;
   try {
-    const companies = await fetchCompaniesFiltered(keyword);
+    const companies = await fetchCompaniesFiltered(keyword, id);
     res.status(200).json(companies);
   } catch (error) {
     console.error("❌ [getCompaniesFiltered] error:", error);
@@ -111,9 +111,10 @@ export const getCompaniesFiltered = async (req, res) => {
 };
 
 export const getRecentMyCompanies = async (req, res) => {
-  const { id } = req.query;
+  const { userId } = req.query;
+  console.log(req.query);
   try {
-    const companies = await fetchRecentMyCompanies(id);
+    const companies = await fetchRecentMyCompanies(userId);
     res.status(200).json(companies);
   } catch (error) {
     console.error("❌ [getRecentMyCompanies] error:", error);
