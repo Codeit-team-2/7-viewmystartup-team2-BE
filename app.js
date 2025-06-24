@@ -19,7 +19,8 @@ app.use("/companies", companyRoutes);
 
 // investment 라우터
 //태홍님께 맞출 에정 - 우진
-app.use("/investments", investmentRoutes); // 처음부터 오타낸건지 다른분이 바꾼건지 몰라서 일단주석처리
+app.use("/company", investmentRoutes);
+// app.use("/investments", investmentRoutes); // 처음부터 오타낸건지 다른분이 바꾼건지 몰라서 일단주석처리
 
 // myCompanySelection 라우터
 app.use("/my-company-selections", myCompanySelectionRoutes);
