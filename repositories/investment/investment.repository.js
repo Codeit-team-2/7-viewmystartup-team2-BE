@@ -62,7 +62,6 @@ export const findUserById = async (userId) => {
   });
 };
 
-
 // 유저 잔액 차감
 export const decrementUserBalance = (prisma, userId, howMuch) => {
   return prisma.user.update({
@@ -150,15 +149,33 @@ export const getInvestmentUserListByDB = async ({
         },
         keyword
           ? {
-              company: {
-                companyName: {
-                  contains: keyword,
-                  mode: "insensitive",
+              OR: [
+                {
+                  company: {
+                    companyName: {
+                      contains: keyword,
+                      mode: "insensitive",
+                    },
+                  },
                 },
-              },
+                {
+                  company: {
+                    category: {
+                      contains: keyword,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+                {
+                  comment: {
+                    contains: keyword,
+                    mode: "insensitive",
+                  },
+                },
+              ],
             }
           : {},
-        { deletedAt: null }, // ✅ 여기에 추가
+        { deletedAt: null },
       ],
     },
     select: {
