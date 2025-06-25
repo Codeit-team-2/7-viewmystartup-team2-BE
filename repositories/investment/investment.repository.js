@@ -184,6 +184,7 @@ export const getInvestmentUserListByDB = async ({
           companyName: true,
           category: true,
           totalInvestment: true,
+          imgUrl: true,
         },
       },
       comment: true,
