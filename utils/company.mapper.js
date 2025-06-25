@@ -17,6 +17,7 @@ export const companyToLandingPageDTO = (company) => ({
   revenue: company.revenue,
   totalInvestment: company.totalInvestment,
   employees: company.employees,
+  imgUrl: company.imgUrl,
 });
 
 export const companyToInvestmentOverviewPageDTO = (company) => ({
@@ -25,6 +26,7 @@ export const companyToInvestmentOverviewPageDTO = (company) => ({
   category: company.category,
   vmsInvestment: company.vmsInvestment,
   totalInvestment: company.totalInvestment,
+  imgUrl: company.imgUrl,
 });
 
 export const companyToSelectedOverviewPageDTO = (company) => ({
@@ -33,4 +35,5 @@ export const companyToSelectedOverviewPageDTO = (company) => ({
   category: company.category,
   myCompanySelectedCount: company._count?.myCompanySelections ?? 0,
   compareSelectedCount: company._count?.compareCompanySelections ?? 0,
+  imgUrl: company.imgUrl,
 });

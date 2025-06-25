@@ -29,6 +29,7 @@ model Company {
   revenue                  Float
   totalInvestment          Float
   vmsInvestment            Float
+  imgUrl                   String?
   compareCompanySelections CompareCompanySelection[]
   investments              Investment[]
   myCompanySelections      MyCompanySelection[]
