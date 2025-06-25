@@ -13,7 +13,9 @@ export const loginUser = async ({ nickname, password }) => {
 
   return {
     nickname: user.nickname,
+    userId: user.id,
+    email: user.email,
     balance: user.balance,
-    id: user.id,
+    investmentsCount: user._count.investments,
   };
 };
