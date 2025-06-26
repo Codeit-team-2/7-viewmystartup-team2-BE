@@ -19,3 +19,16 @@ export const loginUser = async ({ nickname, password }) => {
     investmentsCount: user.investmentsCount,
   };
 };
+
+export const refreshUserInfo = async (nickname) => {
+  const user = await findUserByNickname(nickname);
+  if (!user) throw new Error("존재하지 않는 사용자입니다.");
+
+  return {
+    nickname: user.nickname,
+    userId: user.id,
+    email: user.email,
+    balance: user.balance,
+    investmentsCount: user.investmentsCount,
+  };
+};
