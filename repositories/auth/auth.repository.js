@@ -3,7 +3,17 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const findUserByNickname = async (nickname) => {
-  return await prisma.user.findUnique({
+  return prisma.user.findUnique({
     where: { nickname },
+    select: {
+      id: true,
+      nickname: true,
+      email: true,
+      password: true,
+      balance: true,
+      _count: {
+        select: { investments: true },
+      },
+    },
   });
 };
