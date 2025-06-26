@@ -1,4 +1,5 @@
 // services/investment/investment.service.js
+import { tr } from "@faker-js/faker";
 import {
   deleteInvestmentRepo,
   getAllInvestmentsFromDB,
@@ -9,16 +10,17 @@ import {
   getUser,
   getCompanyFromDB,
   getInvestmentUserListByDB,
+  incrementUserBalance,
 } from "../../repositories/investment/investment.repository.js";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
-
+// 기업정보 조회
 export const fetchCompanyDetailService = async companyId => {
   return await getCompanyFromDB(companyId);
 };
 
-export const fetchInvestmentsByCompanyId = async (companyId) => {
+export const fetchInvestmentsByCompanyId = async companyId => {
   const investments = await getAllInvestmentsFromDB(companyId);
   // 순위 계산 로직
   return investments.map((inv, idx) => ({
@@ -26,7 +28,7 @@ export const fetchInvestmentsByCompanyId = async (companyId) => {
     rank: idx + 1,
   }));
 };
-
+// 투자 수정
 export const updateInvestmentService = async (
   investmentId,
   userId,
@@ -44,9 +46,34 @@ export const updateInvestmentService = async (
   if (!isMatch) {
     throw { status: 401, message: "비밀번호가 일치하지 않습니다." };
   }
-  return await updateInvestmentRepo(investmentId, updateData);
-};
+  const investment = await prisma.investment.findUnique({
+    where: { id: investmentId },
+    select: { howMuch: true },
+  });
+  if (!investment) {
+    throw { status: 404, message: "투자 정보를 찾을 수 없습니다." };
+  }
+  const oldAmount = investment.howMuch;
+  const newAmount = updateData.howMuch;
 
+  const diff = newAmount - oldAmount;
+
+  const tx = [];
+  if (diff > 0) {
+    // 추가 투자: 잔액 차감 및 잔액 부족 검증
+    if (user.balance < diff) {
+      throw { status: 400, message: "잔액이 부족합니다." };
+    }
+    tx.push(decrementUserBalance(prisma, userId, diff));
+  } else if (diff < 0) {
+    // 투자액 감소시 잔액 복구
+    tx.push(incrementUserBalance(prisma, userId, Math.abs(diff)));
+  }
+  tx.push(updateInvestmentRepo(investmentId, updateData));
+  await prisma.$transaction(tx);
+  return { message: "투자 수정 및 잔액 수정" };
+};
+//  ????
 export const postInvestments = async ({
   userId,
   companyId,
@@ -68,6 +95,7 @@ export const postInvestments = async ({
 
   return investment;
 };
+// 투자 취소
 export const deleteInvestmentService = async (
   investmentId,
   userId,
@@ -84,7 +112,19 @@ export const deleteInvestmentService = async (
   if (!isMatch) {
     throw { status: 401, message: "비밀번호가 일치하지 않습니다." };
   }
-  return await deleteInvestmentRepo(investmentId);
+  // 투자 정보 조회
+  const investment = await prisma.investment.findUnique({
+    where: { id: investmentId },
+    select: { howMuch: true },
+  });
+  if (!investment) {
+    throw { status: 404, message: "투자 정보를 찾을 수 없습니다." };
+  }
+  await prisma.$transaction([
+    incrementUserBalance(prisma, userId, investment.howMuch),
+    deleteInvestmentRepo(investmentId),
+  ]);
+  return { message: "삭제 및 잔액 복구 완료" };
 };
 
 // 비밀번호만 검증
