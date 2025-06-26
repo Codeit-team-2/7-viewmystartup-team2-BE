@@ -16,6 +16,6 @@ export const loginUser = async ({ nickname, password }) => {
     userId: user.id,
     email: user.email,
     balance: user.balance,
-    investmentsCount: user._count.investments,
+    investmentsCount: user.investmentsCount,
   };
 };
