@@ -18,17 +18,18 @@ model User {
   myCompanySelections      MyCompanySelection[]
 }
 
+// 비는 데이터가 있어서 revenue, totalInvestment, vmsInvestment, investmentStage nullabe로 설정했습니다 
 model Company {
   category                 String
   companyName              String
-  description              String
+  description              String?
   id                       String                    @id @default(uuid())
-  investmentStage          String
-  investors                String
-  employees                Int
-  revenue                  Float
-  totalInvestment          Float
-  vmsInvestment            Float
+  investmentStage          String?
+  investors                String?                    @default("")                  
+  employees                Int?
+  revenue                  Float?
+  totalInvestment          Float?
+  vmsInvestment            Float?
   imgUrl                   String?
   compareCompanySelections CompareCompanySelection[]
   investments              Investment[]

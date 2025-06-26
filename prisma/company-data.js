@@ -1,4 +1,4 @@
-export const invIntialData = [
+export const invInitialData = [
   {
     category: "커머스,푸드/농업",
     companyName: "레브잇",
@@ -39,7 +39,7 @@ export const invIntialData = [
     investmentStage: "",
     employees: 85,
     revenue: 50830546000,
-    totalInvestment: "-",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00011679_20220715165829.png",
   },
@@ -117,7 +117,7 @@ export const invIntialData = [
     investmentStage: "",
     employees: 76,
     revenue: 30015743000,
-    totalInvestment: "-",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00020726_20250107225616.png",
   },
@@ -310,7 +310,7 @@ export const invIntialData = [
     investmentStage: "seed",
     employees: 40,
     revenue: 22937555000,
-    totalInvestment: "비공개",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00001429_20230921171624.png",
   },
@@ -368,7 +368,7 @@ export const invIntialData = [
     investmentStage: "",
     employees: 52,
     revenue: 7569746000,
-    totalInvestment: "-",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00011552_20220627114004.png",
   },
@@ -425,7 +425,7 @@ export const invIntialData = [
     investmentStage: "",
     employees: 93,
     revenue: 70754562000,
-    totalInvestment: "-",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/C001825.png",
   },
@@ -503,7 +503,7 @@ export const invIntialData = [
     investmentStage: "M&A",
     employees: 9,
     revenue: 4757385000,
-    totalInvestment: "비공개",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00013169_20230116135046.png",
   },
@@ -571,7 +571,7 @@ export const invIntialData = [
     investmentStage: "pre-A",
     employees: 6,
     revenue: 375090000,
-    totalInvestment: "비공개",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00010648_20220215114215.png",
   },
@@ -839,7 +839,7 @@ export const invIntialData = [
     investmentStage: "",
     employees: 529,
     revenue: 119111610000,
-    totalInvestment: "-",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00014881_20230621130720.png",
   },
@@ -917,7 +917,7 @@ export const invIntialData = [
     investmentStage: "pre-A",
     employees: 17,
     revenue: 1737729000,
-    totalInvestment: "비공개",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00010142_20230517103029.webp",
   },
@@ -997,7 +997,7 @@ export const invIntialData = [
     investmentStage: "",
     employees: 209,
     revenue: null,
-    totalInvestment: "-",
+    totalInvestment: null,
     imgUrl:
       "https://s3.ap-northeast-2.amazonaws.com/inno.bucket.live/corp/logo/CP00012900_20221208180007.png",
   },

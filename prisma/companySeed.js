@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { invIntialData } from "./company-data";
+import { invInitialData } from "./company-data.js";
 
 const prisma = new PrismaClient();
 
 async function main() {
   // Company 데이터 넣기
-  for (const company of invIntialData) {
+  for (const company of invInitialData) {
     try {
       await prisma.company.create({ data: company });
     } catch (err) {
