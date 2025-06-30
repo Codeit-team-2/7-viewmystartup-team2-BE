@@ -90,7 +90,8 @@ Database: PostgreSQL
     └── company.mapper.js
 ```
 
-#ERD
+# ERD
+
 <img width="675" alt="image" src="https://github.com/user-attachments/assets/0a515990-1eab-4a26-aacd-cdb450a6b615" />
 
 
