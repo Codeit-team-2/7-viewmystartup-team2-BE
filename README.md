@@ -31,7 +31,8 @@ Database: PostgreSQL
 - 나의 기업 선택 페이지 구현
 
 정남영
-- 나의 기업 비교 결과 페이지 구현
+- 투자 현황 조회 API 개발
+- 투자 Investment Post API 구현
 
 정우진
 - 전체기업, 비교현황, 투자현황 (keyword, sort, order 쿼리 ) 기업리스트 불러오기 api 작성
