@@ -33,7 +33,9 @@ Database: PostgreSQL
 - 수정 및 삭제 시 유저 잔액 동기화 서비스 로직 작성
 
 이예원
-- 나의 기업 선택 페이지 구현
+- query로 필터링한 기업 리스트 조회 API 구현 (company table)
+- userId를 이용하여 최근에 선택한 기업 리스트 조회 API 구현 (myCompanySelection, company table)
+- userId, companyId를 이용하여 현재 선택한 기업 post API 구현 (myCompanySelection, compareCompanySelection table)
 
 정남영
 - 투자 현황 조회 API 개발
